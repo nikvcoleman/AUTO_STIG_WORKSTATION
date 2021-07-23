@@ -33,7 +33,40 @@ reg add HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Sy
 ECHO CLEANING UP FILES FROM DESKTOP!
 DEL C:\Users\ESSAdmin\Desktop\audit.ini /f /q 
 DEL C:\Users\ESSAdmin\Desktop\security.csv /f /q
+GOTO  FIREWALL
+
+:FIREWALL
+CLS
+ECHO **************************************************************************************************************
+ECHO **************************************************************************************************************
+ECHO *                                                                                                                                                                                                                                  
+ECHO *              THIS PART OF THE SCRIPT IMPORTS FIREWALL RULES BASED ON USER  INPUT 
+ECHO *
+ECHO **************************************************************************************************************
+ECHO **************************************************************************************************************
+ECHO *
+ECHO *				PLEASE SELECT THE SYSTEM YOU ARE CURRENTLY WORKING ON :
+ECHO *
+ECHO *
+ECHO *					(1)   ACS GALAXY   
+ECHO *					(2)   ACS GALLAGHER
+ECHO *					(3)   ACS GENETEC
+ECHO *					(4)   VMS BOSCH
+ECHO *					(5)   VMS GENETEC
+ECHO *					(6)   VMS MILESTONE
+ECHO *					(7)   NONE OF THE ABOVE                 
+ECHO *
+ECHO *
+SET /P USER_INPUT=" 				WHAT SYSTEM ARE YOU IMPORTING FIREWALL RULES FOR? [1-7]: "
+IF /I %USER_INPUT%==1 (NETSH ADVFIREWALL IMPORT %DRIVELETTER%:\NICE_SERVER\FIREWALL\ACS_Galaxy\Galaxy_ACS_WKS_Firewall_Rules_Final.wfw)
+IF /I %USER_INPUT%==2 (NETSH ADVFIREWALL IMPORT %DRIVELETTER%:\NICE_SERVER\FIREWALL\ACS_Gallagher\Gallagher_ACS_WKS_Firewall_Rules_Final.wfw)
+IF /I %USER_INPUT%==3 (NETSH ADVFIREWALL IMPORT %DRIVELETTER%:\NICE_SERVER\FIREWALL\ACS_Genetec\Genetec_ACS_WKS_Firewall_Rules_Final.wfw)
+IF /I %USER_INPUT%==4 (NETSH ADVFIREWALL IMPORT %DRIVELETTER%:\NICE_SERVER\FIREWALL\VMS_Bosch\Bosch_VMS_WKS_Firewall_Rules_Final.wfw)
+IF /I %USER_INPUT%==5 (NETSH ADVFIREWALL IMPORT %DRIVELETTER%:\NICE_SERVER\FIREWALL\VMS_Genetec\Galaxy_VMS_WKS_Firewall_Rules_Final.wfw)
+IF /I %USER_INPUT%==6 (NETSH ADVFIREWALL IMPORT %DRIVELETTER%:\NICE_SERVER\FIREWALL\VMS_Milestone\Milestone_VMS_WKS_Firewall_Rules_Final.wfw)
+IF /I %USER_INPUT%==7 (GOTO CODE_EXIT)
 GOTO CODE_EXIT
+
 
 :CODE_EXIT
 SET /P EXIT_PROMPT="WOULD YOU LIKE TO RESTART THE COMPUTER NOW? [Y/N]:  
