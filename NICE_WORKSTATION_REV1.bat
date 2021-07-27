@@ -8,7 +8,7 @@ SET /P DRIVELETTER="PLEASE ENTER THE CURRENT USB DRIVE LETTER: "
 ECHO COPYING FILES FROM USB TO DESKTOP!
 COPY "%DRIVELETTER%:\NICE_WORKSTATION\GPWKS\AuditPolicy\audit.ini" "C:\Users\ESSAdmin\Desktop"
 ECHO COPIED AUDIT POLICY TO DESKTOP
-COPY "%DRIVELETTER%:\NICE_WORKSTATION\GPWKS\SecurityConfigurations\security.csv" "C:\Users\ESSAdmin\Desktop"
+COPY "%DRIVELETTER%:\NICE_WORKSTATION\GPWKS\SecurityPolicy\security.csv" "C:\Users\ESSAdmin\Desktop"
 ECHO COPIED SECURITY CONFIGURATIONS TO DESKTOP
 XCOPY /E /I /Y "%DRIVELETTER%:\NICE_WORKSTATION\GPWKS\GroupPolicyObjects" "C:\Windows\System32\GroupPolicy"
 ECHO COPIED GROUP POLICY OBJECTS TO GROUP POLICY FOLDER
@@ -25,6 +25,7 @@ sc config seclogon start= disabled
 ECHO DELETING POWERSHELL V2
 DISM /online /Disable-Feature /FeatureName:MicrosoftWindowsPowerShellV2
 ECHO ADDING REGISTRY VALUES
+reg add HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319 /v SchUseStrongCrypto /t REG_DWORD /d 1
 reg add HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\.NETFramework\v4.0.30319\ /v SchUseStrongCrypto /t REG_DWORD /d 1
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Network Connections" /v NC_ShowSharedAccessUI /t REG_DWORD /d 0
 reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\Kernel DMA Protection" /v DeviceEnumerationPolicy /t REG_DWORD /d 0
