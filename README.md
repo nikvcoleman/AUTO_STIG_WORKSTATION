@@ -1,5 +1,5 @@
-# NICE_WORKSTATION<br>
-This is a clone of NICE_SERVER made for workstations instead.<br>
+# NICE_WORKSTATION has been renamed to AUTO_STIG_WORKSTATION<br>
+This is a clone of NICE_SERVER AKA AUTO_STIG_SERVER made for workstations instead.<br>
 Some of the commands used on the servers are different than the ones used on the workstations<br>
 This is a batch script to help harden Windows 10 workstations<br>
 
