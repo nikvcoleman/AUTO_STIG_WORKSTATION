@@ -5,19 +5,22 @@ ECHO This is a Batch Script written for the AASF project server hardening effort
 ECHO BY Nikolas Coleman 2021. 
 ECHO Thank me later...preferably with more money
 SET /P DRIVELETTER="PLEASE ENTER THE CURRENT USB DRIVE LETTER: "
-ECHO COPYING FILES FROM USB TO DESKTOP!
-COPY "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\GPWKS\AuditPolicy\audit.ini" "C:\Users\ESSAdmin\Desktop"
-ECHO COPIED AUDIT POLICY TO DESKTOP
-COPY "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\GPWKS\SecurityPolicy\security.csv" "C:\Users\ESSAdmin\Desktop"
-ECHO COPIED SECURITY CONFIGURATIONS TO DESKTOP
-XCOPY /E /I /Y "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\GPWKS\GroupPolicyObjects" "C:\Windows\System32\GroupPolicy"
-ECHO COPIED GROUP POLICY OBJECTS TO GROUP POLICY FOLDER
-ECHO APPLYING GROUP POLICY
-GPUPDATE /FORCE
-ECHO IMPORTING SECURITY CONFIGURATIONS!
-secedit /configure /cfg C:\Users\ESSAdmin\Desktop\security.csv /db defltbase.sdb /verbose
-ECHO IMPORTING AUDIT POLICY!
-auditpol /restore /file:C:\Users\ESSAdmin\Desktop\audit.ini
+CLS
+GOTO IMPORTER
+REM ECHO COPYING FILES FROM USB TO DESKTOP!
+REM COPY "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\GPWKS\AuditPolicy\audit.ini" "C:\Users\ESSAdmin\Desktop"
+REM ECHO COPIED AUDIT POLICY TO DESKTOP
+REM COPY "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\GPWKS\SecurityPolicy\security.csv" "C:\Users\ESSAdmin\Desktop"
+REM ECHO COPIED SECURITY CONFIGURATIONS TO DESKTOP
+REM XCOPY /E /I /Y "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\GPWKS\GroupPolicyObjects" "C:\Windows\System32\GroupPolicy"
+REM ECHO COPIED GROUP POLICY OBJECTS TO GROUP POLICY FOLDER
+REM ECHO APPLYING GROUP POLICY
+REM GPUPDATE /FORCE
+REM ECHO IMPORTING SECURITY CONFIGURATIONS!
+REM secedit /configure /cfg C:\Users\ESSAdmin\Desktop\security.csv /db defltbase.sdb /verbose
+REM ECHO IMPORTING AUDIT POLICY!
+REM auditpol /restore /file:C:\Users\ESSAdmin\Desktop\audit.ini
+:RESUME
 ECHO CONFIGURING DEP
 BCDEDIT /set {current} nx OptOut
 ECHO DISABLING SECONDARY LOGON SERVICE
@@ -34,23 +37,23 @@ reg add HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Sy
 ECHO CLEANING UP FILES FROM DESKTOP!
 DEL C:\Users\ESSAdmin\Desktop\audit.ini /f /q 
 DEL C:\Users\ESSAdmin\Desktop\security.csv /f /q
-GOTO  FIREWALL
+GOTO CODE_EXIT
 
-:FIREWALL
+:IMPORTER
 CLS
 ECHO **************************************************************************************************************
 ECHO **************************************************************************************************************
 ECHO *                                                                                                                                                                                                                                  
-ECHO *              THIS PART OF THE SCRIPT IMPORTS FIREWALL RULES BASED ON USER  INPUT 
+ECHO *              THIS PART OF THE SCRIPT IMPORTS PRIOR CONFIGURATION RULES BASED ON USER  INPUT 
 ECHO *
 ECHO **************************************************************************************************************
 ECHO **************************************************************************************************************
 ECHO *
-ECHO *				PLEASE SELECT THE SYSTEM YOU ARE CURRENTLY WORKING ON :
+ECHO *				PLEASE SELECT THE SYSTEM YOU WOULD LIKE TO IMPORT:
 ECHO *
 ECHO *
 ECHO *					(1)   ACS GALAXY   
-ECHO *					(2)   ACS GALLAGHER
+ECHO *			 		(2)   ACS GALLAGHER
 ECHO *					(3)   ACS GENETEC
 ECHO *					(4)   VMS BOSCH
 ECHO *					(5)   VMS GENETEC
@@ -58,16 +61,74 @@ ECHO *					(6)   VMS MILESTONE
 ECHO *					(7)   NONE OF THE ABOVE                 
 ECHO *
 ECHO *
-SET /P USER_INPUT=" 				WHAT SYSTEM ARE YOU IMPORTING FIREWALL RULES FOR? [1-7]: "
-IF /I %USER_INPUT%==1 (NETSH ADVFIREWALL IMPORT %DRIVELETTER%:\AUTO_STIG_WORKSTATION\FIREWALL\ACS_Galaxy\Galaxy_ACS_WKS_Firewall_Rules_Final.wfw)
-IF /I %USER_INPUT%==2 (NETSH ADVFIREWALL IMPORT %DRIVELETTER%:\AUTO_STIG_WORKSTATION\FIREWALL\ACS_Gallagher\Gallagher_ACS_WKS_Firewall_Rules_Final.wfw)
-IF /I %USER_INPUT%==3 (NETSH ADVFIREWALL IMPORT %DRIVELETTER%:\AUTO_STIG_WORKSTATION\FIREWALL\ACS_Genetec\Genetec_ACS_WKS_Firewall_Rules_Final.wfw)
-IF /I %USER_INPUT%==4 (NETSH ADVFIREWALL IMPORT %DRIVELETTER%:\AUTO_STIG_WORKSTATION\FIREWALL\VMS_Bosch\Bosch_VMS_WKS_Firewall_Rules_Final.wfw)
-IF /I %USER_INPUT%==5 (NETSH ADVFIREWALL IMPORT %DRIVELETTER%:\AUTO_STIG_WORKSTATION\FIREWALL\VMS_Genetec\Galaxy_VMS_WKS_Firewall_Rules_Final.wfw)
-IF /I %USER_INPUT%==6 (NETSH ADVFIREWALL IMPORT %DRIVELETTER%:\AUTO_STIG_WORKSTATION\FIREWALL\VMS_Milestone\Milestone_VMS_WKS_Firewall_Rules_Final.wfw)
+SET /P USER_INPUT=" 				WHAT SYSTEM ARE YOU IMPORTING CONFIGURATION RULES FOR? [1-7]: "
+IF /I %USER_INPUT%==1 (GOTO ACS_GALAXY)
+IF /I %USER_INPUT%==2 (GOTO ACS_GALLAGHER)
+IF /I %USER_INPUT%==3 (GOTO ACS_GENETEC)
+IF /I %USER_INPUT%==4 (GOTO VMS_BOSCH)
+IF /I %USER_INPUT%==5 (GOTO VMS_GENETEC)
+IF /I %USER_INPUT%==6 (GOTO VMS_MILESTONE)
 IF /I %USER_INPUT%==7 (GOTO CODE_EXIT)
 GOTO CODE_EXIT
 
+:ACS_GALAXY
+ECHO NO CONFIG FOR GALAXY AT THIS TIME PLEASE CONTACT NIK COLEMAN
+GOTO CODE_EXIT
+
+:ACS_GALLAGHER
+COPY "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\GALLAGHER_ACS_WKS\audit.inf" "C:\Users\ESSAdmin\Desktop"
+auditpol /restore /file:C:\Users\ESSAdmin\Desktop\audit.inf
+DEL C:\Users\ESSAdmin\Desktop\audit.inf /f /q 
+COPY "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\GALLAGHER_ACS_WKS\security.inf" "C:\Users\ESSAdmin\Desktop"
+secedit /configure /cfg C:\Users\ESSAdmin\Desktop\security.inf /db defltbase.sdb /verbose
+DEL C:\Users\ESSAdmin\Desktop\security.inf /f /q
+XCOPY /E /I /Y "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\GALLAGHER_ACS_WKS\PolicyObjects" "C:\Windows\System32\GroupPolicy"
+GPUPDATE /FORCE
+GOTO RESUME
+
+:ACS_GENETEC
+COPY "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\GENETEC_ACS_WKS\audit.inf" "C:\Users\ESSAdmin\Desktop"
+auditpol /restore /file:C:\Users\ESSAdmin\Desktop\audit.inf
+DEL C:\Users\ESSAdmin\Desktop\audit.inf /f /q 
+COPY "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\GENETEC_ACS_WKS\security.inf" "C:\Users\ESSAdmin\Desktop"
+secedit /configure /cfg C:\Users\ESSAdmin\Desktop\security.inf /db defltbase.sdb /verbose
+DEL C:\Users\ESSAdmin\Desktop\security.inf /f /q
+XCOPY /E /I /Y "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\GENETEC_ACS_WKS\PolicyObjects" "C:\Windows\System32\GroupPolicy"
+GPUPDATE /FORCE
+GOTO RESUME
+
+:VMS_BOSCH
+COPY "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\BOSCH_VMS_WKS\audit.inf" "C:\Users\ESSAdmin\Desktop"
+auditpol /restore /file:C:\Users\ESSAdmin\Desktop\audit.inf
+DEL C:\Users\ESSAdmin\Desktop\audit.inf /f /q 
+COPY "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\BOSCH_VMS_WKS\security.inf" "C:\Users\ESSAdmin\Desktop"
+secedit /configure /cfg C:\Users\ESSAdmin\Desktop\security.inf /db defltbase.sdb /verbose
+DEL C:\Users\ESSAdmin\Desktop\security.inf /f /q
+XCOPY /E /I /Y "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\BOSCH_VMS_WKS\PolicyObjects" "C:\Windows\System32\GroupPolicy"
+GPUPDATE /FORCE
+GOTO RESUME
+
+:VMS_GENETEC
+COPY "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\GENETEC_VMS_WKS\audit.inf" "C:\Users\ESSAdmin\Desktop"
+auditpol /restore /file:C:\Users\ESSAdmin\Desktop\audit.inf
+DEL C:\Users\ESSAdmin\Desktop\audit.inf /f /q 
+COPY "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\GENETEC_VMS_WKS\security.inf" "C:\Users\ESSAdmin\Desktop"
+secedit /configure /cfg C:\Users\ESSAdmin\Desktop\security.inf /db defltbase.sdb /verbose
+DEL C:\Users\ESSAdmin\Desktop\security.inf /f /q
+XCOPY /E /I /Y "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\GENETEC_VMS_WKS\PolicyObjects" "C:\Windows\System32\GroupPolicy"
+GPUPDATE /FORCE
+GOTO RESUME
+
+:VMS_MILESTONE
+COPY "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\MILESTONE_VMS_WKS\audit.inf" "C:\Users\ESSAdmin\Desktop"
+auditpol /restore /file:C:\Users\ESSAdmin\Desktop\audit.inf
+DEL C:\Users\ESSAdmin\Desktop\audit.inf /f /q 
+COPY "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\MILESTONE_VMS_WKS\security.inf" "C:\Users\ESSAdmin\Desktop"
+secedit /configure /cfg C:\Users\ESSAdmin\Desktop\security.inf /db defltbase.sdb /verbose
+DEL C:\Users\ESSAdmin\Desktop\security.inf /f /q
+XCOPY /E /I /Y "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\MILESTONE_VMS_WKS\PolicyObjects" "C:\Windows\System32\GroupPolicy"
+GPUPDATE /FORCE
+GOTO RESUME
 
 :CODE_EXIT
 SET /P EXIT_PROMPT="WOULD YOU LIKE TO RESTART THE COMPUTER NOW? [Y/N]:  
