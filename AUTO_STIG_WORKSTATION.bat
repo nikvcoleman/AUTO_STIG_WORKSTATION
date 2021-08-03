@@ -82,7 +82,7 @@ DEL C:\Users\ESSAdmin\Desktop\audit.inf /f /q
 COPY "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\GALLAGHER_ACS_WKS\security.inf" "C:\Users\ESSAdmin\Desktop"
 secedit /configure /cfg C:\Users\ESSAdmin\Desktop\security.inf /db defltbase.sdb /verbose
 DEL C:\Users\ESSAdmin\Desktop\security.inf /f /q
-XCOPY /E /I /Y "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\GALLAGHER_ACS_WKS\PolicyObjects" "C:\Windows\System32\GroupPolicy"
+XCOPY /E /I /Y "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\GALLAGHER_ACS_WKS\GroupPolicyObjects" "C:\Windows\System32\GroupPolicy"
 GPUPDATE /FORCE
 GOTO RESUME
 
@@ -93,7 +93,7 @@ DEL C:\Users\ESSAdmin\Desktop\audit.inf /f /q
 COPY "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\GENETEC_ACS_WKS\security.inf" "C:\Users\ESSAdmin\Desktop"
 secedit /configure /cfg C:\Users\ESSAdmin\Desktop\security.inf /db defltbase.sdb /verbose
 DEL C:\Users\ESSAdmin\Desktop\security.inf /f /q
-XCOPY /E /I /Y "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\GENETEC_ACS_WKS\PolicyObjects" "C:\Windows\System32\GroupPolicy"
+XCOPY /E /I /Y "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\GENETEC_ACS_WKS\GroupPolicyObjects" "C:\Windows\System32\GroupPolicy"
 GPUPDATE /FORCE
 GOTO RESUME
 
@@ -104,7 +104,7 @@ DEL C:\Users\ESSAdmin\Desktop\audit.inf /f /q
 COPY "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\BOSCH_VMS_WKS\security.inf" "C:\Users\ESSAdmin\Desktop"
 secedit /configure /cfg C:\Users\ESSAdmin\Desktop\security.inf /db defltbase.sdb /verbose
 DEL C:\Users\ESSAdmin\Desktop\security.inf /f /q
-XCOPY /E /I /Y "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\BOSCH_VMS_WKS\PolicyObjects" "C:\Windows\System32\GroupPolicy"
+XCOPY /E /I /Y "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\BOSCH_VMS_WKS\GroupPolicyObjects" "C:\Windows\System32\GroupPolicy"
 GPUPDATE /FORCE
 GOTO RESUME
 
@@ -115,7 +115,7 @@ DEL C:\Users\ESSAdmin\Desktop\audit.inf /f /q
 COPY "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\GENETEC_VMS_WKS\security.inf" "C:\Users\ESSAdmin\Desktop"
 secedit /configure /cfg C:\Users\ESSAdmin\Desktop\security.inf /db defltbase.sdb /verbose
 DEL C:\Users\ESSAdmin\Desktop\security.inf /f /q
-XCOPY /E /I /Y "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\GENETEC_VMS_WKS\PolicyObjects" "C:\Windows\System32\GroupPolicy"
+XCOPY /E /I /Y "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\GENETEC_VMS_WKS\GroupPolicyObjects" "C:\Windows\System32\GroupPolicy"
 GPUPDATE /FORCE
 GOTO RESUME
 
@@ -126,7 +126,7 @@ DEL C:\Users\ESSAdmin\Desktop\audit.inf /f /q
 COPY "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\MILESTONE_VMS_WKS\security.inf" "C:\Users\ESSAdmin\Desktop"
 secedit /configure /cfg C:\Users\ESSAdmin\Desktop\security.inf /db defltbase.sdb /verbose
 DEL C:\Users\ESSAdmin\Desktop\security.inf /f /q
-XCOPY /E /I /Y "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\MILESTONE_VMS_WKS\PolicyObjects" "C:\Windows\System32\GroupPolicy"
+XCOPY /E /I /Y "%DRIVELETTER%:\AUTO_STIG_WORKSTATION\WKSCONFIGS\MILESTONE_VMS_WKS\GroupPolicyObjects" "C:\Windows\System32\GroupPolicy"
 GPUPDATE /FORCE
 GOTO RESUME
 
